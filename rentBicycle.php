@@ -29,11 +29,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         if ($stmt->rowCount() > 0) {
             // Prepare the SQL statement to insert rental record
-            $stmt = $db->prepare("INSERT INTO rental (userID, bicycleID, rentalTime) VALUES (:userID, :bicycleID, NOW())");
+            $stmt = $db->prepare("INSERT INTO rental (userID, bicycleID, rentalTime, returnStat) VALUES (:userID, :bicycleID, NOW(), 'not return')");
             $stmt->bindParam(':userID', $username);
             $stmt->bindParam(':bicycleID', $bicycleID);
             $stmt->execute();
-
+        
             echo json_encode(["status" => "success"]);
         } else {
             echo json_encode(["status" => "error", "message" => "Bicycle is not available"]);
