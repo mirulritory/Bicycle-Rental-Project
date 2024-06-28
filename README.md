@@ -1,6 +1,6 @@
 Project Documentation: Bicycle Rental System
 
-Overview
+Overview:
 The Bicycle Rental System is designed to facilitate bicycle rentals and returns for students. It involves two applications that interact with a central database.
 
 1. How many apps involved
