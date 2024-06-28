@@ -1,8 +1,5 @@
+import javax.swing.*;
 import java.awt.CardLayout;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
 
 public class BicycleRentalSystem extends JFrame {
 
@@ -17,10 +14,18 @@ public class BicycleRentalSystem extends JFrame {
         CardLayout cardLayout = new CardLayout();
         JPanel mainPanel = new JPanel(cardLayout);
 
-        mainPanel.add(new LoginPanel(mainPanel), "Login");
-        mainPanel.add(new HomePanel(mainPanel), "Home");
-        mainPanel.add(new RentBicyclePanel(mainPanel), "RentBicycle");
-        mainPanel.add(new ReturnBicyclePanel(mainPanel), "ReturnBicycle");
+        LoginPanel loginPanel = new LoginPanel(mainPanel);
+        HomePanel homePanel = new HomePanel(this, mainPanel);
+        RentBicyclePanel rentBicyclePanel = new RentBicyclePanel(mainPanel);
+        ReturnBicyclePanel returnBicyclePanel = new ReturnBicyclePanel(this, mainPanel);
+
+        mainPanel.add(loginPanel, "Login");
+        mainPanel.add(homePanel, "Home");
+        mainPanel.add(rentBicyclePanel, "RentBicycle");
+        mainPanel.add(returnBicyclePanel, "ReturnBicycle");
+
+        // Initially show the login panel
+        cardLayout.show(mainPanel, "Login");
 
         add(mainPanel);
         setVisible(true);

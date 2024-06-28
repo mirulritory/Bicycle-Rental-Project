@@ -21,13 +21,16 @@ public class RentBicyclePanel extends JPanel {
         this.mainPanel = mainPanel;
         setLayout(new BorderLayout());
         JLabel titleLabel = new JLabel("Available Bicycles", JLabel.CENTER);
+        titleLabel.setBackground(new Color(0, 64, 128));
         add(titleLabel, BorderLayout.NORTH);
 
         bicycleListModel = new DefaultListModel<>();
         bicycleList = new JList<>(bicycleListModel);
+        bicycleList.setBackground(new Color(128, 128, 255));
         add(new JScrollPane(bicycleList), BorderLayout.CENTER);
 
         JPanel buttonPanel = new JPanel();
+        buttonPanel.setBackground(new Color(0, 64, 128));
         JButton backButton = new JButton("Back");
         JButton rentButton = new JButton("Rent");
 
@@ -42,7 +45,6 @@ public class RentBicyclePanel extends JPanel {
         rentButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Code to handle renting the selected bicycle
                 String selectedBicycle = bicycleList.getSelectedValue();
                 if (selectedBicycle != null) {
                     String username = ((BicycleRentalSystem) SwingUtilities.getWindowAncestor(mainPanel)).getLoggedInUser();
@@ -90,12 +92,15 @@ public class RentBicyclePanel extends JPanel {
         return bicycles;
     }
 
-    private void loadAvailableBicycles() {
+    public void loadAvailableBicycles() {
         List<String> bicycles = fetchAvailableBicycles();
         bicycleListModel.clear();
         for (String bicycle : bicycles) {
             bicycleListModel.addElement(bicycle);
         }
+        // Ensure the list updates visually
+        revalidate();
+        repaint();
     }
 
     private boolean rentBicycle(String bicycleID, String username) {
@@ -132,4 +137,5 @@ public class RentBicyclePanel extends JPanel {
         }
         return false;
     }
+    
 }

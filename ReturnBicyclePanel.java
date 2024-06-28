@@ -10,30 +10,32 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
+import org.json.JSONObject;
 
 public class ReturnBicyclePanel extends JPanel {
-
     private JList<String> rentedBicycleList;
     private DefaultListModel<String> rentedBicycleListModel;
     private JPanel mainPanel;
     private String loggedInUsername;
-    private JLabel usernameLabel; // Highlighted: Added a JLabel to display the logged-in username
+    private JLabel usernameLabel;
 
-    public ReturnBicyclePanel(JPanel mainPanel) {
+    public ReturnBicyclePanel(BicycleRentalSystem frame, JPanel mainPanel) {
         this.mainPanel = mainPanel;
         setLayout(new BorderLayout());
 
-        usernameLabel = new JLabel("Logged-in User: "); // Highlighted: Added initialization of the JLabel
+        usernameLabel = new JLabel("Logged-in User: ");
         add(usernameLabel, BorderLayout.NORTH);
 
         JLabel titleLabel = new JLabel("Return a Bicycle", JLabel.CENTER);
-        add(titleLabel, BorderLayout.NORTH);
+        add(titleLabel, BorderLayout.CENTER);
 
         rentedBicycleListModel = new DefaultListModel<>();
         rentedBicycleList = new JList<>(rentedBicycleListModel);
+        rentedBicycleList.setBackground(new Color(128, 128, 255));
         add(new JScrollPane(rentedBicycleList), BorderLayout.CENTER);
 
         JPanel buttonPanel = new JPanel();
+        buttonPanel.setBackground(new Color(0, 64, 128));
         JButton backButton = new JButton("Back");
         JButton returnButton = new JButton("Return");
 
@@ -48,23 +50,16 @@ public class ReturnBicyclePanel extends JPanel {
         returnButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                fetchLoggedInUsername(); // Fetch the logged-in username on button click
-                if (loggedInUsername != null) {
-                    String selectedBicycle = rentedBicycleList.getSelectedValue();
-                    if (selectedBicycle != null) {
-                        if (returnBicycle(selectedBicycle)) {
-                            JOptionPane.showMessageDialog(null, "Returning: " + selectedBicycle);
-                            loadRentedBicycles(); // Reload rented bicycles for the user
-                            CardLayout cardLayout = (CardLayout) mainPanel.getLayout();
-                            cardLayout.show(mainPanel, "Home");
-                        } else {
-                            JOptionPane.showMessageDialog(null, "Failed to return bicycle.");
-                        }
+                String selectedBicycle = rentedBicycleList.getSelectedValue();
+                if (selectedBicycle != null) {
+                    if (returnBicycle(selectedBicycle)) {
+                        JOptionPane.showMessageDialog(null, "Successfully returned: " + selectedBicycle);
+                        loadRentedBicycles();
                     } else {
-                        JOptionPane.showMessageDialog(null, "Please select a bicycle to return.");
+                        JOptionPane.showMessageDialog(null, "Failed to return bicycle.");
                     }
                 } else {
-                    JOptionPane.showMessageDialog(null, "No logged-in user found.");
+                    JOptionPane.showMessageDialog(null, "Please select a bicycle to return.");
                 }
             }
         });
@@ -75,26 +70,12 @@ public class ReturnBicyclePanel extends JPanel {
         add(buttonPanel, BorderLayout.SOUTH);
     }
 
-    @Override
-    public void addNotify() {
-        super.addNotify();
-        fetchLoggedInUsername(); // Fetch logged-in username on panel initialization
-        if (loggedInUsername != null) {
-            usernameLabel.setText("Logged-in User: " + loggedInUsername); // Highlighted: Set the text of the usernameLabel
-            loadRentedBicycles();
-        }
+    public void setLoggedInUsername(String username) {
+        this.loggedInUsername = username;
+        usernameLabel.setText("Logged-in User: " + username);
     }
 
-    private void fetchLoggedInUsername() {
-        BicycleRentalSystem frame = (BicycleRentalSystem) SwingUtilities.getWindowAncestor(mainPanel);
-        if (frame != null) {
-            loggedInUsername = frame.getLoggedInUser();
-            System.out.println("fetchLoggedInUsername: loggedInUsername = " + loggedInUsername); // Debugging log
-            usernameLabel.setText("Logged-in User: " + loggedInUsername); // Highlighted: Set the text of the usernameLabel
-        }
-    }
-
-    private void loadRentedBicycles() {
+    public void loadRentedBicycles() {
         if (loggedInUsername != null) {
             List<String> rentedBicycles = fetchRentedBicycles(loggedInUsername);
             rentedBicycleListModel.clear();
@@ -139,7 +120,7 @@ public class ReturnBicyclePanel extends JPanel {
                 conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
                 conn.setDoOutput(true);
 
-                String postData = "bicycleID=" + URLEncoder.encode(bicycleID, "UTF-8");
+                String postData = "bicycleID=" + URLEncoder.encode(bicycleID, "UTF-8") + "&username=" + URLEncoder.encode(loggedInUsername, "UTF-8");
 
                 try (OutputStream os = conn.getOutputStream()) {
                     os.write(postData.getBytes());
@@ -149,10 +130,23 @@ public class ReturnBicyclePanel extends JPanel {
                 int responseCode = conn.getResponseCode();
                 if (responseCode == HttpURLConnection.HTTP_OK) {
                     BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-                    String response = in.readLine();
+                    StringBuilder response = new StringBuilder();
+                    String inputLine;
+                    while ((inputLine = in.readLine()) != null) {
+                        response.append(inputLine);
+                    }
                     in.close();
 
-                    return response.contains("\"status\":\"success\"");
+                    // Print server response for debugging
+                    System.out.println("Server response: " + response.toString());
+
+                    // Parse JSON response
+                    JSONObject jsonResponse = new JSONObject(response.toString());
+                    if (jsonResponse.has("status") && jsonResponse.getString("status").equals("success")) {
+                        return true;
+                    } else {
+                        System.out.println("Return bicycle failed: " + response);
+                    }
                 } else {
                     System.out.println("HTTP Error: " + responseCode);
                 }
@@ -164,4 +158,5 @@ public class ReturnBicyclePanel extends JPanel {
         }
         return false;
     }
+
 }
