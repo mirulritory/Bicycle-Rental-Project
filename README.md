@@ -13,7 +13,7 @@ The Bicycle Rental System is designed to facilitate bicycle rentals and returns 
 		- Rent page: Display bicycle (bicycleID) which status is "available" on the database and user can choose the bicycle based on their 		  		  preferences. Once rented, it will pop-up message and send user back to Home page. The database will insert data of username, bicycleID, 		  	  and the return status either "not return" or "returned".
 		- Return page: It will display bicycle with the status of "Not return" based on the username. Once the user click on the bicycleID, there 		 	  will be pop-up messages and send user back to Home page. The database will update bicycle status back to "available".
 
-	-Staff :
+	- Staff :
 		- Login page: Where staff need to enter the username (matric No.) and password and the system will validate either the username and password 		  is valid or invalid.
 		- Home page: Staff can choose either click button "View History" or "Logout".
 		- View History page: It will display entire data of bicycle rental history (userID, name, phone No. and return status).
