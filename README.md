@@ -1,4 +1,5 @@
 Project Documentation: Bicycle Rental System
+
 Overview
 The Bicycle Rental System is designed to facilitate bicycle rentals and returns for students. It involves two applications that interact with a central database.
 
@@ -17,6 +18,7 @@ The Bicycle Rental System is designed to facilitate bicycle rentals and returns 
 		- Login page: Where staff need to enter the username (matric No.) and password and the system will validate either the username and password 		  is valid or invalid.
 		- Home page: Staff can choose either click button "View History" or "Logout".
 		- View History page: It will display entire data of bicycle rental history (userID, name, phone No. and return status).
+
 
 3. Architecture/Layer diagram for each of the apps including the middleware
 
