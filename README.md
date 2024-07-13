@@ -23,7 +23,6 @@ The Bicycle Rental System is designed to facilitate bicycle rentals and returns 
 3. Architecture/Layer diagram for each of the apps including the middleware
    ![diagrammmm' drawio](https://github.com/user-attachments/assets/05a427c2-046d-4fc7-84ec-bfaa86299c65)
 
-
 4. List of URL end points middleware RESTful/SOAP/Socket
 	- http://10.200.116.32/Bicycle-Rental-Project/login.php
  - http://10.200.116.32/Bicycle-Rental-Project/fetchbicycle.php
