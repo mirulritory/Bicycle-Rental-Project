@@ -44,7 +44,7 @@ The Bicycle Rental System is designed to facilitate bicycle rentals and returns 
 
 7. The database and tables involve in the projects
 	- user: Contains user details (userID, Name, phoneNo, passwordU)
- - staff: Contains staff details (userID, name, phoneNo, password)
- - bicycle: Contains bicycle details (bicycleID, status)
- - rental: Logs rental transactions (rentalID, userID, bicycleID, rentalTime, returnStat
+ 	- staff: Contains staff details (userID, name, phoneNo, password)
+ 	- bicycle: Contains bicycle details (bicycleID, status)
+ 	- rental: Logs rental transactions (rentalID, userID, bicycleID, rentalTime, returnStat
 
