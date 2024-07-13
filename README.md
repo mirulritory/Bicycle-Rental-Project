@@ -21,9 +21,28 @@ The Bicycle Rental System is designed to facilitate bicycle rentals and returns 
 
 
 3. Architecture/Layer diagram for each of the apps including the middleware
+   ![diagrammmm' drawio](https://github.com/user-attachments/assets/05a427c2-046d-4fc7-84ec-bfaa86299c65)
 
-4. List of URL end points middleware RESTful/SOAP/Socket 
+5. List of URL end points middleware RESTful/SOAP/Socket
+	- http://10.200.116.32/Bicycle-Rental-Project/login.php
+ - http://10.200.116.32/Bicycle-Rental-Project/fetchbicycle.php
+ - http://10.200.116.32/Bicycle-Rental-Project/rentBicycle.php
+ - http://10.200.116.32/Bicycle-Rental-Project/fetchRentedBicycle.php?username=
+ - http://10.200.116.32/Bicycle-Rental-Project/returnBicycle.php
+ - http://localhost/Bicycle-Rental-Project/fetchRentalHistory.php
 
 5. Functions/Features in the middleware
+	- User Authentication: Validates user credentials against the database.
+ - Fetch Available Bicycles: Retrieves a list of bicycles available for rent.
+ - Fetch Rented Bicycles: Retrieves bicycles currently rented by a user.
+ - Rent Bicycle: Updates database to mark a bicycle as rented.
+ - Return Bicycle: Updates database to mark a bicycle as returned.
+ - Fetch Rental History: Retrieves the rental history for a user or bicycle.
 
-6. The database and tables involve in the projects
+
+7. The database and tables involve in the projects
+	- user: Contains user details (userID, Name, phoneNo, passwordU)
+ - staff: Contains staff details (userID, name, phoneNo, password)
+ - bicycle: Contains bicycle details (bicycleID, status)
+ - rental: Logs rental transactions (rentalID, userID, bicycleID, rentalTime, returnStat
+
