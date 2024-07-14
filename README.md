@@ -49,3 +49,4 @@ The Bicycle Rental System is designed to facilitate bicycle rentals and returns 
  	- bicycle: Contains bicycle details (bicycleID, status)
  	- rental: Logs rental transactions (rentalID, userID, bicycleID, rentalTime, returnStat
 
+LINK PROJECT YOUTUBE VIDEO: https://youtu.be/KApL3MisaIk
